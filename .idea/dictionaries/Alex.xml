@@ -1,7 +1,9 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Alex">
     <words>
+      <w>bcrypt</w>
       <w>fkey</w>
+      <w>prisma</w>
     </words>
   </dictionary>
 </component>
