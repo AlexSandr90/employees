@@ -30,7 +30,7 @@ const Login = () => {
           <Space direction={'vertical'} size={'large'}>
             <Typography.Text>
               No account?
-              <Link to={Paths.register}>Sign up</Link>
+              <Link to={Paths.register} style={{marginLeft: '10px'}}>Sign up</Link>
             </Typography.Text>
           </Space>
         </Card>
