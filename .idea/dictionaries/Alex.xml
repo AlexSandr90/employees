@@ -4,6 +4,7 @@
       <w>bcrypt</w>
       <w>fkey</w>
       <w>prisma</w>
+      <w>refetch</w>
     </words>
   </dictionary>
 </component>
