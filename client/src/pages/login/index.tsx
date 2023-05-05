@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Layout from "../../components/layout";
 import { Card, Form, Row, Space, Typography } from "antd";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CustomInput from '../../components/customInput/CustomInput';
 import PasswordInput from "../../components/passwordInput/PasswordInput";
 import CustomButton from "../../components/customButton/CustomButton";
@@ -19,6 +19,8 @@ const Login = () => {
   const login = async (data: UserData) => {
     try {
       await loginUser(data).unwrap();
+      
+      navigate('/');
 
     } catch (e) {
       console.log('error: ',e);
@@ -29,6 +31,7 @@ const Login = () => {
       } else {
         setError('Unknown error')
       }
+      navigate('/');
     }
   };
 
