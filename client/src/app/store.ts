@@ -5,15 +5,14 @@ import { api } from "./services/api";
 export const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,
-    auth
+    auth,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware)
 });
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType,
   RootState,
   unknown,
-  Action<string>
->;
+  Action<string>>;

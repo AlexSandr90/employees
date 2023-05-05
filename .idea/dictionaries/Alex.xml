@@ -2,6 +2,7 @@
   <dictionary name="Alex">
     <words>
       <w>bcrypt</w>
+      <w>erro</w>
       <w>fkey</w>
       <w>prisma</w>
       <w>refetch</w>

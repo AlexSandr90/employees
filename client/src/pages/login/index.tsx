@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../../components/layout";
 import { Card, Form, Row, Space, Typography } from "antd";
 import { Link } from 'react-router-dom';
@@ -6,13 +6,38 @@ import CustomInput from '../../components/customInput/CustomInput';
 import PasswordInput from "../../components/passwordInput/PasswordInput";
 import CustomButton from "../../components/customButton/CustomButton";
 import { Paths } from "../../paths";
+import { useLoginMutation, UserData } from "../../app/services/auth";
+import { isErrorWithMessage } from "../../utils/isErrorWithMessage";
+import { ErrorMessage } from "../../components/errorMessage/ErrorMessage";
 
 const Login = () => {
+  const [loginUser, loginUserResult] = useLoginMutation();
+  const [error, setError] = useState('');
+
+  const navigate = useNavigate();
+
+  const login = async (data: UserData) => {
+    try {
+      await loginUser(data).unwrap();
+
+    } catch (e) {
+      console.log('error: ',e);
+      const maybeError = isErrorWithMessage(e);
+
+      if (maybeError) {
+        setError(e.data.message);
+      } else {
+        setError('Unknown error')
+      }
+    }
+  };
+
+
   return (
     <Layout>
       <Row align={'middle'} justify={'center'}>
         <Card title={'Log in'} style={{ width: '30rem' }}>
-          <Form onFinish={() => null}>
+          <Form onFinish={login}>
             <CustomInput
               name={'email'}
               placeholder={'Email'}
@@ -30,8 +55,9 @@ const Login = () => {
           <Space direction={'vertical'} size={'large'}>
             <Typography.Text>
               No account?
-              <Link to={Paths.register} style={{marginLeft: '10px'}}>Sign up</Link>
+              <Link to={Paths.register} style={{ marginLeft: '10px' }}>Sign up</Link>
             </Typography.Text>
+            <ErrorMessage message={error}/>
           </Space>
         </Card>
       </Row>
