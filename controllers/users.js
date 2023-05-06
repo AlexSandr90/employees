@@ -8,32 +8,37 @@ const jwt = require('jsonwebtoken');
  * @access Public
  */
 const login = async (req, res) => {
-    const {email, password} = req.body;
-    if (!email || !password) {
-        return res
-            .status(400)
-            .json({message: 'Please fill in the required fields'})
-    }
+    try {
+        const {email, password} = req.body;
 
-    const user = await prisma.user.findFirst({
-        where: {
-            email
+        if (!email || !password) {
+            return res
+                .status(400)
+                .json({message: 'Please fill in the required fields'})
         }
-    });
 
-    const isPasswordCorrect = user && (await bcrypt.compare(password, user.password));
-    const secret = process.env.JWT_SECRET
-    if (user && isPasswordCorrect && secret) {
-        res.status(200).json({
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            token: jwt.sign({ id: user.id }, secret, { expiresIn: "30d" })
-        })
-    } else {
-        return res
-            .status(400)
-            .json({message: 'Login or password entered incorrectly'})
+        const user = await prisma.user.findFirst({
+            where: {
+                email
+            }
+        });
+
+        const isPasswordCorrect = user && (await bcrypt.compare(password, user.password));
+        const secret = process.env.JWT_SECRET
+        if (user && isPasswordCorrect && secret) {
+            res.status(200).json({
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                token: jwt.sign({ id: user.id }, secret, { expiresIn: "30d" })
+            })
+        } else {
+            return res
+                .status(400)
+                .json({message: 'Login or password entered incorrectly'})
+        }
+    } catch (e) {
+        res.status(400).json({message: 'Something went wrong'})
     }
 };
 
@@ -43,53 +48,63 @@ const login = async (req, res) => {
  * @access Public
  */
 const register = async (req, res) => {
-    const {email, password, name} = req.body;
+    try {
+        const {email, password, name} = req.body;
 
-    if (!email || !password || !name) {
-        return res
-            .status(400)
-            .json({message: 'Please fill in the required fields'})
-    }
-
-    const registeredUser = await prisma.user.findFirst({ where: {email}});
-
-    if (registeredUser) {
-        return res
-            .status(400)
-            .json({message: 'A user with this e-mail already exists'})
-    }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const user = await prisma.user.create({
-        data: {
-            email,
-            name,
-            password: hashedPassword
+        if (!email || !password || !name) {
+            return res
+                .status(400)
+                .json({message: 'Please fill in the required fields'})
         }
-    });
 
-    const secret = process.env.JWT_SECRET
+        const registeredUser = await prisma.user.findFirst({ where: {email}});
 
-    if (user && secret) {
-        res.status(201).json({
-            id: user.id,
-            email: user.email,
-            name,
-            token: jwt.sign({ id: user.id }, secret, { expiresIn: "30d" })
-        })
-    } else {
-        return res.status(400).json({message: 'User could not be created'})
+        if (registeredUser) {
+            return res
+                .status(400)
+                .json({message: 'A user with this e-mail already exists'})
+        }
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const user = await prisma.user.create({
+            data: {
+                email,
+                name,
+                password: hashedPassword
+            }
+        });
+
+        const secret = process.env.JWT_SECRET
+
+        if (user && secret) {
+            res.status(201).json({
+                id: user.id,
+                email: user.email,
+                name,
+                token: jwt.sign({ id: user.id }, secret, { expiresIn: "30d" })
+            })
+        } else {
+            return res.status(400).json({message: 'User could not be created'})
+        }
+    } catch (e) {
+        res.status(400).json({message: 'Something went wrong'})
     }
+
 };
 
 /**
  * @route GET api/user/current
- * @desc Current
+ * @desc Current User
  * @access Private
  */
 const current = async (req, res) => {
-    res.send('current')
+    try {
+        return res.status(200).json(req.user);
+    } catch (e) {
+        res.status(400).json({message: 'Something went wrong'})
+    }
+
 };
 
 
@@ -97,4 +112,4 @@ module.exports = {
     login,
     current,
     register
-}
+};
