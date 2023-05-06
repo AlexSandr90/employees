@@ -4,12 +4,12 @@ import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ConfigProvider, theme } from 'antd';
 import { store } from './app/store';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { Paths } from "./paths";
 import Login from "./pages/login";
 import Register from "./pages/register";
+import Auth from './features/auth/auth';
 
 const router = createBrowserRouter([
   {
@@ -18,11 +18,11 @@ const router = createBrowserRouter([
   },
   {
     path: Paths.login,
-    element: <Login/>
+    element: <Login />
   },
   {
     path: Paths.register,
-    element: <Register/>
+    element: <Register />
   }
 ]);
 
@@ -37,9 +37,10 @@ root.render(
           algorithm: theme.darkAlgorithm
         }}
       >
-        <RouterProvider router={router}/>
+        <Auth>
+          <RouterProvider router={router} />
+        </Auth>
       </ConfigProvider>
-      {/*<App />*/}
     </Provider>
   </React.StrictMode>
 );
