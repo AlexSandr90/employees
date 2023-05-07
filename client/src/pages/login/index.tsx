@@ -8,7 +8,7 @@ import CustomButton from "../../components/customButton/CustomButton";
 import { Paths } from "../../paths";
 import { useLoginMutation, UserData } from "../../app/services/auth";
 import { isErrorWithMessage } from "../../utils/isErrorWithMessage";
-import { ErrorMessage } from "../../components/errorMessage/ErrorMessage";
+import ErrorMessage from "../../components/errorMessage/ErrorMessage";
 
 const Login = () => {
   const [loginUser, loginUserResult] = useLoginMutation();

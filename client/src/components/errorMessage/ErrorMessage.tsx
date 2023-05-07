@@ -5,5 +5,7 @@ type ErrorMessageTypeProps = {
   message?: string
 }
 
-export const ErrorMessage = ({ message }: ErrorMessageTypeProps) => message ?
+const ErrorMessage = ({ message }: ErrorMessageTypeProps) => message ?
   <Alert message={message} type={'error'}/> : null;
+
+  export default ErrorMessage;
