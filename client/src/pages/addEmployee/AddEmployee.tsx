@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../components/layout';
 import { Row } from 'antd';
-import EmplyeeForm from '../../components/employeeForm';
+import EmplyeeForm from '../../components/employeeForm/EmployeeForm';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../features/auth/authSlice';
