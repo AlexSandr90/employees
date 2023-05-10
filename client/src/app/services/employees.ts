@@ -38,3 +38,22 @@ export const employeesApi = api.injectEndpoints({
         }),
     })
 });
+
+
+export const {
+    useGetAllEmployeesQuery,
+    useGetEmployeeQuery,
+    useEditEmployeeMutation,
+    useRemoveEmployeeMutation,
+    useAddEmployeeMutation
+} = employeesApi;
+
+export const {
+    endpoints: {
+        getAllEmployees,
+        getEmployee,
+        editEmployee,
+        removeEmployee,
+        addEmployee
+    }
+} = employeesApi

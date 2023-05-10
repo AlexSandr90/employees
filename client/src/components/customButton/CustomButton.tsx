@@ -5,7 +5,7 @@ import styles from './customButton.module.css';
 type ButtonLabelType = {
   children: React.ReactNode;
   htmlType?: 'button' | 'submit' | 'reset' | undefined;
-  onClick: () => void;
+  onClick?: () => void;
   type?: 'link' | 'text' | 'ghost' | 'default' | 'primary' | 'dashed' | undefined;
   danger?: boolean;
   loading?: boolean;
