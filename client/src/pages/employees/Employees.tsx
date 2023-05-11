@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import Layout from '../../components/layout';
+import Layout from '../../components/layout/Layout';
 import CustomButton from '../../components/customButton/CustomButton';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Table } from 'antd';
