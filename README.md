@@ -1,6 +1,7 @@
-1. Clone repo
-2. Open terminal
-3. Write on terminal: npm install
+1. Clone repo.
+2. Open termina.l
+3. Write on terminal: 
+    npm install
 4. Go to Client folder and install dependencies:
     cd client
     npm install
