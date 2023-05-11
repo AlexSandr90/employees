@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Layout from '../../components/layout';
+import Layout from '../../components/layout/Layout';
 import { Row } from 'antd';
 import EmplyeeForm from '../../components/employeeForm/EmployeeForm';
 import { useNavigate } from 'react-router-dom';

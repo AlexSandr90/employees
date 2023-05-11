@@ -1,27 +1,33 @@
 import React, { useState } from "react";
 import Layout from "../../components/layout/Layout";
 import { Card, Form, Row, Space, Typography } from "antd";
-import { Link, useNavigate } from 'react-router-dom';
-import CustomInput from '../../components/customInput/CustomInput';
+import CustomInput from "../../components/customInput/CustomInput";
 import PasswordInput from "../../components/passwordInput/PasswordInput";
 import CustomButton from "../../components/customButton/CustomButton";
+import { Link, useNavigate } from "react-router-dom";
 import { Paths } from "../../paths";
-import { useLoginMutation, UserData } from "../../app/services/auth";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../features/auth/authSlice";
+import { useRegisterMutation } from "../../app/services/auth";
+import { User } from "@prisma/client";
 import { isErrorWithMessage } from "../../utils/isErrorWithMessage";
 import ErrorMessage from "../../components/errorMessage/ErrorMessage";
 
-const Login = () => {
-  const [loginUser, loginUserResult] = useLoginMutation();
+
+type RegisterData = Omit<User, 'id'> & { confirmPassword: string };
+
+
+const Register = () => {
   const [error, setError] = useState('');
-
   const navigate = useNavigate();
+  const user = useSelector(selectUser);
+  const [registerUser] = useRegisterMutation();
 
-  const login = async (data: UserData) => {
+  const register = async (data: RegisterData) => {
     try {
-      await loginUser(data).unwrap();
-      
-      navigate('/');
+      await registerUser(data).unwrap()
 
+      navigate('/');
     } catch (e) {
       const maybeError = isErrorWithMessage(e);
 
@@ -32,34 +38,35 @@ const Login = () => {
       }
       navigate('/');
     }
-  };
-
+  }
 
   return (
     <Layout>
       <Row align={'middle'} justify={'center'}>
-        <Card title={'Log in'} style={{ width: '30rem' }}>
-          <Form onFinish={login}>
+        <Card title={'Sign up'} style={{ width: '30rem' }}>
+          <Form onFinish={register}>
+            <CustomInput name={'name'} placeholder={'Name'} />
             <CustomInput
               name={'email'}
               placeholder={'Email'}
               type={'email'}
             />
-            <PasswordInput name={'password'} placeholder={'Password'}/>
+            <PasswordInput name={'password'} placeholder={'Password'} />
+            <PasswordInput name={'confirmPassword'} placeholder={'Confirm password'} />
             <CustomButton
               onClick={() => null}
               type={'primary'}
               htmlType={'submit'}
             >
-              Sign in
+              Sign up
             </CustomButton>
           </Form>
           <Space direction={'vertical'} size={'large'}>
             <Typography.Text>
-              No account?
-              <Link to={Paths.register} style={{ marginLeft: '10px' }}>Sign up</Link>
+              Already have an account?
+              <Link to={Paths.login} style={{ marginLeft: '10px' }}>Sign in</Link>
             </Typography.Text>
-            <ErrorMessage message={error}/>
+            <ErrorMessage message={error} />
           </Space>
         </Card>
       </Row>
@@ -67,4 +74,4 @@ const Login = () => {
   )
 };
 
-export default Login
+export default Register;
