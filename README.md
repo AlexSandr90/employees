@@ -1,11 +1,22 @@
-1. Clone repo.
-2. Open terminal
-3. Write on terminal:
-## npm install
-4. Go to Client folder and install dependencies:
-## cd client
-## npm install
-5. Return to main folder:
-## cd ..
-6. Run code:
-## npm run dev
+# Getting Started cloning repository to your computer
+
+Clone repo.
+
+## Open terminal
+
+Run:
+
+### `npm install`
+
+Go to Client folder with command:
+
+### `cd client`
+### `npm install`
+
+Return to main folder:
+
+### `cd ..`
+
+Run code with command:
+
+### `npm run dev`
